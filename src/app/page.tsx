@@ -3,6 +3,8 @@ import { listMeets } from "@/lib/queries/meets";
 import { SearchBar } from "@/components/search/search-bar";
 import { levelLabel, levelColor, formatDate } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const recentMeets = await listMeets({ page: 1, limit: 6 });
 
