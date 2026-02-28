@@ -1,0 +1,58 @@
+name: Run Scrapers
+
+on:
+  schedule:
+    # Every Monday at 6 AM UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      source:
+        description: "Source to scrape (gymternet | usag_pdf | road_to_nationals | all)"
+        required: false
+        default: "all"
+      dry_run:
+        description: "Dry run (no DB writes)"
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install scraper dependencies
+        run: pnpm install --filter mag-scores-scraper
+        working-directory: scraper
+
+      - name: Install Playwright browsers (for NCAA scraper)
+        run: pnpm exec playwright install chromium --with-deps
+        working-directory: scraper
+        continue-on-error: true
+
+      - name: Run scrapers
+        run: |
+          ARGS="--source=${{ inputs.source || 'all' }}"
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          pnpm scrape $ARGS
+        working-directory: scraper
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NODE_ENV: production

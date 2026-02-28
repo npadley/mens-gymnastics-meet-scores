@@ -1,0 +1,7 @@
+packages:
+  - "."
+  - "scraper"
+
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver

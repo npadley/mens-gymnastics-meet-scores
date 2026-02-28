@@ -1,0 +1,28 @@
+{
+  "name": "mag-scores-scraper",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "scrape": "tsx src/index.ts",
+    "scrape:gymternet": "tsx src/index.ts --source=gymternet",
+    "scrape:usag": "tsx src/index.ts --source=usag_pdf",
+    "scrape:ncaa": "tsx src/index.ts --source=road_to_nationals",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "cheerio": "^1.0.0",
+    "drizzle-orm": "^0.45.1",
+    "fastest-levenshtein": "^1.0.16",
+    "nanoid": "^5.1.6",
+    "pdf-parse": "^1.1.1",
+    "undici": "^7.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/pdf-parse": "^1.1.4",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
