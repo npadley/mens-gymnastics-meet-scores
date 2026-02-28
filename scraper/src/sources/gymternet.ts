@@ -203,7 +203,9 @@ function parseGymternetTable(
 
     if (cells.length < 2) continue;
 
-    const rawName = nameColIdx >= 0 ? cells[nameColIdx] : "";
+    const rawName = (nameColIdx >= 0 ? cells[nameColIdx] : "")
+      .split("\n")[0]
+      .trim();
     if (!rawName || /total|avg|average/i.test(rawName)) continue;
 
     const rawProgram = programColIdx >= 0 ? cells[programColIdx] : undefined;
