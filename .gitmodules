@@ -1,0 +1,3 @@
+[submodule ".claudekit"]
+	path = .claudekit
+	url = https://github.com/duthaho/claudekit.git
